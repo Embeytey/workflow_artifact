@@ -75,4 +75,94 @@ jobs:
       - name: Install file
         run: |
           find exercise_1/dist/ -name "*.whl" | xargs pip install
+
+  fast:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    needs: download
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      - name: Step 3 - Use the Upload Artifact GitHub Action
+        uses: actions/download-artifact@v3
+        with: 
+          name: assets-for-download
+          path: exercise_1/dist/
+
+      - name: Install file
+        run: |
+          find exercise_1/dist/ -name "*.whl" | xargs pip install
+
+      - name: run test fast
+        run: |
+          cd exercise_1
+          pytest tests/test_fast.py
+
+  slow1:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    needs: fast
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      - name: Step 3 - Use the Upload Artifact GitHub Action
+        uses: actions/download-artifact@v3
+        with: 
+          name: assets-for-download
+          path: exercise_1/dist/
+
+      - name: Install file
+        run: |
+          find exercise_1/dist/ -name "*.whl" | xargs pip install
       
+      - name: test slow
+        run: |
+          cd exercise_1
+          pytest tests/test_slow_1.py
+
+  slow2:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    needs: fast
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      - name: Step 3 - Use the Upload Artifact GitHub Action
+        uses: actions/download-artifact@v3
+        with: 
+          name: assets-for-download
+          path: exercise_1/dist/
+
+      - name: Install file
+        run: |
+          find exercise_1/dist/ -name "*.whl" | xargs pip install
+      
+      - name: test slow
+        run: |
+          cd exercise_1
+          pytest tests/test_slow_2.py
+  deploy:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    needs: [slow1,slow2]
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      
+      - name: execute
+        run: |
+          cd exercise_1
+          chmod +x deploy.sh
+          python deploy.sh
