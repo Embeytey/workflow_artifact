@@ -98,7 +98,7 @@ jobs:
 
       - name: run test fast
         run: |
-          cd exercise_1
+          cd exercise_1/
           pytest tests/test_fast.py
 
   slow1:
@@ -123,7 +123,7 @@ jobs:
       
       - name: test slow
         run: |
-          cd exercise_1
+          cd exercise_1/
           pytest tests/test_slow_1.py
 
   slow2:
@@ -148,7 +148,7 @@ jobs:
       
       - name: test slow
         run: |
-          cd exercise_1
+          cd exercise_1/
           pytest tests/test_slow_2.py
   deploy:
     # The type of runner that the job will run on
@@ -163,6 +163,6 @@ jobs:
       
       - name: execute
         run: |
-          cd exercise_1
+          cd exercise_1/
           chmod +x deploy.sh
-          python deploy.sh
+          ./deploy.sh
