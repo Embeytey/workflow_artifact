@@ -95,7 +95,10 @@ jobs:
       - name: Install file
         run: |
           find exercise_1/dist/ -name "*.whl" | xargs pip install
-
+      
+      - name: install pytest
+        run: pip install pytest
+        
       - name: run test fast
         run: |
           cd exercise_1/
@@ -120,7 +123,10 @@ jobs:
       - name: Install file
         run: |
           find exercise_1/dist/ -name "*.whl" | xargs pip install
-      
+
+      - name: install pytest
+        run: pip install pytest
+
       - name: test slow
         run: |
           cd exercise_1/
@@ -145,7 +151,10 @@ jobs:
       - name: Install file
         run: |
           find exercise_1/dist/ -name "*.whl" | xargs pip install
-      
+
+      - name: install pytest
+        run: pip install pytest
+
       - name: test slow
         run: |
           cd exercise_1/
